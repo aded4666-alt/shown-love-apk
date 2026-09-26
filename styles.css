@@ -269,6 +269,20 @@ body.is-birthday .count-num{color:var(--wine)}
 .msg-sig{font-family:var(--display);font-style:italic;color:var(--wine);margin:1rem 0 0}
 .msg-body{color:var(--muted);font-family:var(--display);font-style:italic;margin:0}
 .msg-card--pending{border-style:dashed;background:linear-gradient(160deg,#fffdfb,#fdf3f6)}
+/* message from Dayo — envelope style */
+.msg-card--envelope{
+  position:relative;overflow:hidden;padding-top:3.4rem;
+  background:linear-gradient(160deg,#fffdfb,#fdf1f5);border:1px solid #f0d3dd;
+}
+.msg-card--envelope::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:46px;
+  background:linear-gradient(160deg,#e9a9bd,#d97a97);
+  clip-path:polygon(0 0,100% 0,50% 100%);
+}
+.msg-env-icon{
+  position:absolute;top:.75rem;right:1.2rem;z-index:2;
+  font-size:1.15rem;color:#fff;filter:drop-shadow(0 1px 2px rgba(90,20,50,.45));
+}
 
 /* ---------- candles / cake ---------- */
 .candles{text-align:center}
