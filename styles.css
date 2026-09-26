@@ -336,6 +336,13 @@ body.is-birthday .count-num{color:var(--wine)}
 .thanks-grid{display:grid;grid-template-columns:1fr;gap:clamp(1.5rem,5vw,3rem);align-items:start;max-width:62ch;margin-inline:auto;text-align:center}
 .thanks-copy{display:grid;gap:.9rem;justify-items:center}
 
+/* ---------- queen tribute ---------- */
+.queen-grid{display:grid;grid-template-columns:minmax(220px,320px) 1fr;gap:clamp(1.6rem,5vw,3.4rem);align-items:center;max-width:940px;margin-inline:auto}
+.queen-frame{margin:0;display:flex;justify-content:center}
+.queen-frame img{width:100%;max-width:320px;border-radius:18px;box-shadow:var(--shadow);display:block}
+.queen-copy{display:grid;gap:.9rem}
+.queen-sig{font-family:var(--display);font-style:italic;color:var(--wine);margin:0}
+
 /* ---------- footer ---------- */
 .footer{text-align:center;padding:3rem 0 4rem;display:grid;gap:.7rem;justify-items:center}
 .footer-brand{font-family:var(--display);color:var(--burgundy);font-size:1.2rem;margin:0}
@@ -373,7 +380,10 @@ body.is-birthday .count-num{color:var(--wine)}
 
 /* ---------- responsive ---------- */
 @media (max-width:860px){
-  .hero-grid,.letter-grid,.keep-grid,.thanks-grid,.msg-grid{grid-template-columns:1fr}
+  .hero-grid,.letter-grid,.keep-grid,.thanks-grid,.msg-grid,.queen-grid{grid-template-columns:1fr}
+  .queen-grid{justify-items:center;text-align:center}
+  .queen-copy{justify-items:center}
+  .queen-frame img{max-width:300px}
   .hero-photo{transform:none;width:100%;max-width:420px;margin-inline:auto;order:-1}
   .msg-flower{transform:none;width:100%;max-width:420px;margin-inline:auto}
   .wish-grid{grid-template-columns:1fr}

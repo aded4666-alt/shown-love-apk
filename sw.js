@@ -16,6 +16,7 @@ var ASSETS = [
   './photos/mom-2.jpg',
   './photos/flowers.jpg',
   './photos/share-preview.jpg',
+  './photos/queen-frame.jpg',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/apple-touch-icon.png',
