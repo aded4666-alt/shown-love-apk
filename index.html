@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#7a2044" />
+  <meta name="description" content="A colorful birthday celebration for an amazing Mother — made with love." />
+  <meta property="og:title" content="Happy Birthday to an Amazing Mother 🎉" />
+  <meta property="og:description" content="A little corner of the internet, made just for you." />
+  <meta property="og:type" content="website" />
+  <title>Happy Birthday to an Amazing Mother 🎉</title>
+
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="For Mom" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <noscript><style>
+    .splash{display:none}
+    .reveal{opacity:1;transform:none}
+    .modal{position:static;opacity:1;visibility:visible}
+    .modal .modal-card{transform:none}
+  </style></noscript>
+</head>
+<body>
+
+<!-- ============ SPLASH ============ -->
+<div class="splash" id="splash" aria-hidden="true">
+  <div class="splash-gift">🎁</div>
+  <div class="splash-line">Preparing something special…</div>
+  <div class="splash-dots"><span></span><span></span><span></span></div>
+  <button type="button" class="splash-retry" id="splashRetry">Try again</button>
+</div>
+
+<!-- ============ PARTICLE CANVAS ============ -->
+<canvas id="fxCanvas" aria-hidden="true"></canvas>
+
+<!-- ============ NAV ============ -->
+<nav class="nav" id="nav" aria-label="Primary">
+  <a href="#top" class="nav-brand" aria-label="Back to top">✦ for Mom</a>
+  <div class="nav-links">
+    <a href="#wishes">Wishes</a>
+    <a href="#letter">The letter</a>
+    <a href="#messages">From us</a>
+    <a href="#thanks">Thank you</a>
+    <button class="music-btn" id="musicBtn" aria-label="Play background music" aria-pressed="false">
+      <span class="dot" aria-hidden="true"></span><span id="musicLabel">music</span>
+    </button>
+  </div>
+</nav>
+
+<main class="page-shell">
+
+  <!-- ============ BIRTHDAY-DAY BANNER ============ -->
+  <div class="birthday-banner" id="birthdayBanner" aria-live="polite" hidden>
+    <span class="bb-cake" aria-hidden="true">🎂</span>
+    <span class="bb-eyebrow">today is the day</span>
+    <h2>Happy Birthday, Mom!</h2>
+    <p>The waiting is over — today the world celebrates you. Every candle, every wish and every word on this page is yours. 💛</p>
+  </div>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero" id="top">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">A colorful birthday celebration</p>
+        <p class="hero-date">27 · 09 · 2026</p>
+        <h1>Happy Birthday to an<br /><span class="italic">Amazing Mother ♛</span></h1>
+        <p class="lede">Today we celebrate the woman whose love makes every room feel like home. Every color, every memory, every word here is wrapped in love for you.</p>
+        <div class="hero-cta">
+          <a class="btn btn-solid" href="#letter">Read your letter ❤</a>
+          <a class="btn btn-ghost" href="#candles">Blow your candles ↓</a>
+        </div>
+      </div>
+      <figure class="hero-photo reveal">
+        <span class="photo-pin" aria-hidden="true">✦</span>
+        <div class="hero-slides" id="heroSlides">
+          <img class="slide is-active" src="photos/mom-1.jpg" alt="Mom smiling warmly, wearing a purple and gold patterned top" loading="eager" />
+          <img class="slide" src="photos/mom-2.jpg" alt="Mom resting softly, wearing a white top" loading="lazy" />
+        </div>
+        <div class="hero-dots" id="heroDots" aria-hidden="true">
+          <span class="dot is-active"></span><span class="dot"></span>
+        </div>
+        <figcaption>Mom — our voice, our heart</figcaption>
+      </figure>
+    </div>
+    <p class="hero-foot">made with love, bright colors, and a lifetime of gratitude</p>
+  </header>
+
+  <!-- ============ SAVE THE DATE ============ -->
+  <section class="section save reveal" id="save">
+    <div class="save-card">
+      <p class="caps">Save the date</p>
+      <p class="save-month">September</p>
+      <p class="save-day">27</p>
+      <p class="caps small">Two thousand twenty-six</p>
+      <p class="save-note">the day the world got a little more beautiful</p>
+    </div>
+  </section>
+
+  <!-- ============ BRIGHTER ============ -->
+  <section class="section brighter reveal" id="brighter">
+    <p class="caps">✦ For the woman who makes</p>
+    <h2 class="display">ordinary days <span class="italic accent">brighter.</span></h2>
+    <p class="prose">Every year on this day we get to stop and say out loud what we feel all year long: thank you. For the early mornings, the endless patience, and the way you turn the simplest afternoon into something worth remembering.</p>
+  </section>
+
+  <!-- ============ COUNTDOWN ============ -->
+  <section class="section countdown reveal" id="countdown">
+    <p class="caps">The countdown</p>
+    <h2 class="display" id="timerTitle">Celebrating your day</h2>
+    <p class="caps small" id="timerCapsule">September 27 · 2026</p>
+    <div class="count-grid" id="countGrid">
+      <div class="count-cell"><span class="count-num" id="tDays">00</span><span class="count-label">Days</span></div>
+      <div class="count-cell"><span class="count-num" id="tHours">00</span><span class="count-label">Hours</span></div>
+      <div class="count-cell"><span class="count-num" id="tMins">00</span><span class="count-label">Minutes</span></div>
+      <div class="count-cell"><span class="count-num" id="tSecs">00</span><span class="count-label">Seconds</span></div>
+    </div>
+    <p class="count-foot" id="countFoot">every second brings it closer ✦</p>
+  </section>
+
+  <!-- ============ THREE WISHES ============ -->
+  <section class="section wishes reveal" id="wishes">
+    <p class="caps">A new year of you</p>
+    <h2 class="display">Three wishes for your <span class="italic accent">new chapter</span></h2>
+    <div class="wish-grid">
+      <article class="wish-card">
+        <span class="wish-num">01</span>
+        <h3>Joy in the little things</h3>
+        <p>May your mornings be joyful, your tea be warm, and every little moment remind you how loved you are.</p>
+      </article>
+      <article class="wish-card">
+        <span class="wish-num">02</span>
+        <h3>Soft days ahead</h3>
+        <p>May this year bring you dancing, laughter, good health, and beautiful surprises around every corner.</p>
+      </article>
+      <article class="wish-card">
+        <span class="wish-num">03</span>
+        <h3>Big dreams, always</h3>
+        <p>May you feel celebrated every single day, because our lives are brighter simply because you are in them.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ THREE LITTLE NOTES ============ -->
+  <section class="section notes reveal" id="notes">
+    <p class="caps">Three little notes</p>
+    <h2 class="display">Pick one — they're all <span class="italic accent">yours</span></h2>
+    <p class="prose center">Some people make the world softer just by being in it.</p>
+    <div class="note-buttons">
+      <button type="button" class="orb orb-heart" data-note="heart"><span aria-hidden="true">❤</span><small>a note</small></button>
+      <button type="button" class="orb orb-flower" data-note="flower"><span aria-hidden="true">🌷</span><small>a bloom</small></button>
+      <button type="button" class="orb orb-spark" data-note="sparkle"><span aria-hidden="true">✨</span><small>a secret</small></button>
+    </div>
+  </section>
+
+  <!-- ============ LETTER ============ -->
+  <section class="section letter reveal" id="letter">
+    <div class="letter-grid">
+      <div class="letter-copy">
+        <p class="caps">Sealed with love</p>
+        <h2 class="display">A letter for <span class="italic accent">Mom</span></h2>
+        <p class="prose">Some things are easier to say when they're written down. Tap the seal to open the letter we wrote just for you.</p>
+        <button type="button" class="btn btn-solid" id="openLetter">Open the letter ❤</button>
+      </div>
+      <button type="button" class="envelope" id="envelope" aria-label="Open the letter">
+        <span class="env-flap" aria-hidden="true"></span>
+        <span class="env-body" aria-hidden="true"></span>
+        <span class="env-seal" aria-hidden="true">❤</span>
+        <span class="env-to">27 · to<br /><strong>My Amazing Mother</strong></span>
+        <span class="env-hint">tap the seal to open</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ MESSAGES FROM HER CHILDREN ============ -->
+  <section class="section messages reveal" id="messages">
+    <p class="caps">From her children</p>
+    <h2 class="display">Words from <span class="italic accent">the heart</span></h2>
+    <p class="prose center">A few words from the ones who know her best — her children.</p>
+    <div class="msg-grid">
+      <figure class="msg-flower">
+        <span class="photo-pin" aria-hidden="true">✦</span>
+        <img src="photos/flowers.jpg" alt="A warm, elegant floral arrangement in soft blush and burgundy tones" loading="lazy" />
+        <figcaption>for the woman who grew us</figcaption>
+      </figure>
+      <div class="msg-cards">
+        <article class="msg-card">
+          <p class="caps small">Message from Samuel</p>
+          <div class="msg-poem">
+            <p>No helping hand, she stands alone<br />Yet makes a house a loving home.<br />Her heart is soft, your will is stone<br />Her love has beautifully grown.</p>
+            <p>She hides her tears, she hides her pain<br />She dances proudly in the rain.<br />For her kids, she'll bear the strain<br />And finds her joy in their small gain.</p>
+            <p>She is a mother, father too, so strong, so kind, so brave, so true. There's nothing that she cannot do, Her love will always see you through.</p>
+            <p>So here's to her, the queen, the guide,<br />With endless love and can be supplied<br />Than a single mother's love so wide.</p>
+          </div>
+          <p class="msg-sig">— Samuel 💛</p>
+        </article>
+        <article class="msg-card">
+          <p class="caps small">Message from Joseph</p>
+          <div class="msg-poem">
+            <p>Since I was small, it's been you and us two,<br />No father beside us, just your love so true.<br />Your hands worked hard, your heart worked more,<br />You gave us the world, though you had little in store.</p>
+            <p>You hid your pain.</p>
+            <p>You were mother and father in one soul,<br />Playing both parts, making us whole.<br />No complaint, no excuse, just grace,<br />Even when tired, you kept the pace.</p>
+            <p>You taught us that love is more than what you feel.<br />Single by title, but double in strength,<br />You loved us beyond all length.</p>
+            <p>Now your birthday comes, let the heavens see,<br />The queen who made a man out of me.<br />If I had a thousand lifetimes to live,<br />All my love, Mum, to you I would give.</p>
+            <p>You are not just my mother, you are my home,<br />The reason I will never walk alone.<br />Happy birthday, my hero, my heart so true,<br />Everything I am, Mum, I owe to you.</p>
+          </div>
+          <p class="msg-sig">— Joseph 💛</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CANDLES ============ -->
+  <section class="section candles reveal" id="candles">
+    <p class="caps">Make a wish</p>
+    <h2 class="display">Blow out your <span class="italic accent">candles</span></h2>
+    <p class="prose center">Tap each flame — every candle hides a wish for you.</p>
+    <div class="cake" id="cake">
+      <div class="candles-row" id="candlesRow"></div>
+      <div class="cake-tier tier-top"></div>
+      <div class="cake-tier tier-bottom"></div>
+      <div class="cake-plate"></div>
+    </div>
+    <p class="caps small" id="wishReveal">✦ tap a flame to make a wish</p>
+  </section>
+
+  <!-- ============ SCRATCH SECRET ============ -->
+  <section class="section secret reveal" id="secret">
+    <p class="caps">One more thing</p>
+    <h2 class="display">A secret, <span class="italic accent">hidden for you</span></h2>
+    <p class="prose center">Scratch the panel below to uncover it.</p>
+    <div class="scratch-wrap">
+      <div class="scratch-message">
+        <p>You are, and always will be,</p>
+        <p class="scratch-strong">our favorite person. 💛</p>
+      </div>
+      <canvas id="scratch" class="scratch-canvas" aria-label="Scratch to reveal a hidden message"></canvas>
+      <span class="scratch-label" id="scratchLabel">scratch here ✦</span>
+    </div>
+    <p class="caps small">scratch with your finger or mouse — or just tap ✦</p>
+  </section>
+
+  <!-- ============ KEEPSAKE ============ -->
+  <section class="section keepsake reveal" id="keepsake">
+    <div class="keep-grid">
+      <div class="keep-copy">
+        <p class="caps">A keepsake</p>
+        <h2 class="display">Take this <span class="italic accent">with you</span></h2>
+        <p class="prose">Save a little piece of today somewhere close. Add this page to your home screen so it's always one tap away.</p>
+        <div class="keep-actions">
+          <button type="button" class="btn btn-solid" id="installBtn">Save this page ❤</button>
+          <button type="button" class="btn btn-ghost" id="shareBtn">Share</button>
+        </div>
+      </div>
+      <div class="keep-card">
+        <p class="caps small">A keepsake for Mom</p>
+        <h3 class="display">My Amazing Mother</h3>
+        <p class="keep-date">27 · 09 · 2026</p>
+        <ol class="keep-list">
+          <li><span>i.</span> for endless joy</li>
+          <li><span>ii.</span> for sunny days</li>
+          <li><span>iii.</span> for every dream you hold</li>
+          <li><span>iv.</span> and for you … always</li>
+        </ol>
+        <p class="keep-sig">— with love 💛</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THANK YOU ============ -->
+  <section class="section thanks reveal" id="thanks">
+    <div class="thanks-grid">
+      <div class="thanks-copy">
+        <p class="caps">With all our hearts</p>
+        <h2 class="display">Thank you, <span class="italic accent">Mom</span></h2>
+        <p class="prose">Thank you for every sacrifice, every late night, every warm meal, and every time you put us before yourself. Thank you for the lessons you taught without ever raising your voice, and for the love you gave without ever keeping score.</p>
+        <p class="prose">This little corner of the internet is our way of saying what we sometimes forget to say out loud: we see you, we appreciate you, and we are so grateful that you are ours.</p>
+        <p class="prose strong">With love, always. 💛</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <p class="footer-brand">✦ for Mom</p>
+    <p class="footer-line">some sites are built with code — this one was built with a whole lot of love.</p>
+    <button type="button" class="link-btn" id="howBtn">How was this made?</button>
+    <p class="footer-builtby">Built with love by <strong>Pentdragon</strong> &amp; <strong>Joseph</strong></p>
+    <p class="footer-credit">Made with ♥ · a birthday surprise for an amazing Mother</p>
+  </footer>
+
+</main>
+
+<!-- ============ LETTER MODAL ============ -->
+<div class="modal" id="letterModal" role="dialog" aria-modal="true" aria-labelledby="letterModalTitle" hidden>
+  <div class="modal-card letter-card">
+    <button type="button" class="modal-close" data-close aria-label="Close">✕</button>
+    <p class="caps small">27 · 09 · 2026</p>
+    <h3 class="display" id="letterModalTitle">Dear Mom,</h3>
+    <div class="letter-body">
+      <p>Happy birthday to the most wonderful mother I know. Today we celebrate your kindness, your strength, and the love you pour into all of us.</p>
+      <p>I wanted to build something just for you: a colorful little corner of the internet where every pixel says thank you — for every hug, every lesson, and every sacrifice.</p>
+      <p>May your new year be full of health, dancing in the kitchen, laughter around the table, and all the beautiful things you deserve.</p>
+      <p>I love you more than words can say, Mom. ❤</p>
+      <p class="letter-sig">with love, your forever child 💛</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============ NOTE MODAL ============ -->
+<div class="modal" id="noteModal" role="dialog" aria-modal="true" aria-labelledby="noteModalTitle" hidden>
+  <div class="modal-card note-card">
+    <button type="button" class="modal-close" data-close aria-label="Close">✕</button>
+    <span class="note-emoji" id="noteEmoji">❤</span>
+    <h3 class="display" id="noteModalTitle">A note for you</h3>
+    <p class="note-text" id="noteText"></p>
+  </div>
+</div>
+
+<!-- ============ HOW MODAL ============ -->
+<div class="modal" id="howModal" role="dialog" aria-modal="true" aria-labelledby="howModalTitle" hidden>
+  <div class="modal-card how-card">
+    <button type="button" class="modal-close" data-close aria-label="Close">✕</button>
+    <p class="caps small">Behind the scenes</p>
+    <h3 class="display" id="howModalTitle">How was this made?</h3>
+    <p class="prose">This little corner of the internet was hand-built with HTML, CSS, and a sprinkle of JavaScript — no templates, just a lot of care.</p>
+    <p class="prose">It has a live countdown to your big day, candles you can blow out, a scratch-off secret, and a letter sealed just for you. Everything here was made to feel personal, because it is.</p>
+    <p class="prose strong">Made with love, bright colors, and a lifetime of gratitude. 💛</p>
+  </div>
+</div>
+
+<!-- ============ PWA INSTALL BAR ============ -->
+<div class="install-bar" id="installBar" hidden>
+  <span class="install-icon" aria-hidden="true">✦</span>
+  <div class="install-text">
+    <strong>Keep this close, Mom 💛</strong>
+    <span>Add it to your home screen so it's always one tap away.</span>
+  </div>
+  <button type="button" class="btn btn-solid btn-sm" id="installAdd">Add</button>
+  <button type="button" class="install-close" id="installClose" aria-label="Dismiss">✕</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
