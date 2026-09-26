@@ -415,15 +415,12 @@
   on(window, 'beforeinstallprompt', function (e) {
     e.preventDefault();
     deferredPrompt = e;
-    var bar = $('installBar');
-    if (bar) bar.hidden = false;
   });
   function tryInstall() {
     if (deferredPrompt) {
       deferredPrompt.prompt();
       deferredPrompt.userChoice.finalize && deferredPrompt.userChoice.finalize();
       deferredPrompt = null;
-      var bar = $('installBar'); if (bar) bar.hidden = true;
     } else {
       var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
       alert(isIOS
@@ -432,8 +429,6 @@
     }
   }
   on($('installBtn'), 'click', tryInstall);
-  on($('installAdd'), 'click', tryInstall);
-  on($('installClose'), 'click', function () { var b = $('installBar'); if (b) b.hidden = true; });
 
   on($('shareBtn'), 'click', function () {
     var data = { title: 'Happy Birthday to an Amazing Mother 🎉', text: 'A little birthday surprise 💛', url: location.href };
