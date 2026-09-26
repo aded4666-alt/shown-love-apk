@@ -3,7 +3,7 @@
  * Static assets       -> STALE-WHILE-REVALIDATE (instant, refreshed in background)
  * Bump CACHE_VERSION on every deploy to purge old caches.
  */
-var CACHE_VERSION = 'v14';
+var CACHE_VERSION = 'v15';
 var CACHE = 'for-mom-' + CACHE_VERSION;
 
 var ASSETS = [
@@ -15,6 +15,7 @@ var ASSETS = [
   './photos/mom-1.jpg',
   './photos/mom-2.jpg',
   './photos/flowers.jpg',
+  './photos/share-preview.jpg',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/apple-touch-icon.png',
