@@ -87,6 +87,7 @@
   function enterBirthdayMode() {
     if (flipped) return;
     flipped = true;
+    window.__isBirthday = true;
     document.body.classList.add('is-birthday');
     if (banner) banner.hidden = false;
     if (timerTitle) timerTitle.textContent = "It's your day";
@@ -94,6 +95,7 @@
     if (countFoot) countFoot.textContent = "and it's only just beginning ✦";
     if (window.__burstConfetti) window.__burstConfetti(160);
     if (window.__launchLanterns) window.__launchLanterns();
+    if (window.__startBalloons) window.__startBalloons();
   }
 
   function tick() {
@@ -363,8 +365,11 @@
     var cv = $('fxCanvas');
     if (!cv || REDUCED) return;
     var ctx = cv.getContext('2d');
-    var parts = [], lanterns = [], dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var parts = [], lanterns = [], balloons = [], hearts = [], dpr = Math.min(window.devicePixelRatio || 1, 2);
     var COLORS = ['#d97a97', '#e9c478', '#a83b64', '#8b5fbf', '#f6cdd6', '#d9a441'];
+    var BALLOON_COLORS = ['#e26a8d', '#d94f7a', '#a83b64', '#8b5fbf', '#e9c478', '#f6cdd6', '#c2335f', '#b98ad6'];
+    var HEART_COLORS = ['#e26a8d', '#d94f7a', '#c2335f', '#f6cdd6', '#b98ad6', '#e9c478'];
+    var balloonTimer = null;
 
     function size() { cv.width = innerWidth * dpr; cv.height = innerHeight * dpr; }
     size(); on(window, 'resize', size);
@@ -394,6 +399,101 @@
       }
     };
 
+    /* -------- balloons that flow up on her birthday -------- */
+    function spawnBalloon() {
+      var rx = rand(16, 30);
+      balloons.push({
+        x: rand(rx + 4, innerWidth - rx - 4),
+        y: innerHeight + rand(20, 180),
+        rx: rx, ry: rx * 1.24,
+        vy: rand(0.35, 0.9),
+        sway: rand(0.4, 1.3), phase: rand(0, 6.28),
+        a: rand(0.72, 1),
+        color: BALLOON_COLORS[(Math.random() * BALLOON_COLORS.length) | 0]
+      });
+    }
+    window.__startBalloons = function () {
+      if (balloonTimer) return;
+      for (var i = 0; i < 7; i++) spawnBalloon();
+      balloonTimer = setInterval(function () {
+        if (balloons.length < 24) spawnBalloon();
+      }, 620);
+    };
+
+    /* -------- love bubbles that spark wherever she taps -------- */
+    window.__loveBubbles = function (x, y) {
+      for (var i = 0; i < 9; i++) {
+        var s = rand(9, 22);
+        hearts.push({
+          x: x + rand(-16, 16), y: y + rand(-12, 12),
+          vx: rand(-1.3, 1.3), vy: rand(-2.6, -0.7),
+          size: s, grow: rand(0.05, 0.16),
+          life: rand(60, 115), maxLife: 0, rot: rand(-0.35, 0.35), vr: rand(-0.02, 0.02),
+          color: HEART_COLORS[(Math.random() * HEART_COLORS.length) | 0]
+        });
+        hearts[hearts.length - 1].maxLife = hearts[hearts.length - 1].life;
+      }
+      // a little sparkle ring too
+      for (var j = 0; j < 6; j++) {
+        parts.push({
+          x: x, y: y, vx: rand(-3, 3), vy: rand(-4.5, -1),
+          g: 0.06, life: rand(30, 60), size: rand(2.5, 5), rot: rand(0, 7), vr: rand(-0.3, 0.3),
+          color: '#f6cdd6'
+        });
+      }
+    };
+
+    function drawHeart(x, y, size, color, alpha, rot) {
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.translate(x, y); ctx.rotate(rot);
+      ctx.fillStyle = color;
+      var s = size, top = s * 0.3;
+      ctx.beginPath();
+      ctx.moveTo(0, top);
+      ctx.bezierCurveTo(0, 0, -s / 2, 0, -s / 2, top);
+      ctx.bezierCurveTo(-s / 2, (s + top) / 2, 0, (s + top) / 2, 0, s);
+      ctx.bezierCurveTo(0, (s + top) / 2, s / 2, (s + top) / 2, s / 2, top);
+      ctx.bezierCurveTo(s / 2, 0, 0, 0, 0, top);
+      ctx.closePath(); ctx.fill();
+      ctx.restore();
+    }
+
+    function drawBalloon(b) {
+      ctx.save();
+      ctx.globalAlpha = b.a;
+      // body
+      ctx.fillStyle = b.color;
+      ctx.beginPath();
+      ctx.ellipse(b.x, b.y, b.rx, b.ry, 0, 0, 7);
+      ctx.fill();
+      // soft highlight
+      ctx.fillStyle = 'rgba(255,255,255,.38)';
+      ctx.beginPath();
+      ctx.ellipse(b.x - b.rx * 0.32, b.y - b.ry * 0.34, b.rx * 0.26, b.ry * 0.2, -0.4, 0, 7);
+      ctx.fill();
+      // knot
+      ctx.fillStyle = b.color;
+      ctx.beginPath();
+      ctx.moveTo(b.x - 4, b.y + b.ry - 1);
+      ctx.lineTo(b.x + 4, b.y + b.ry - 1);
+      ctx.lineTo(b.x, b.y + b.ry + 6);
+      ctx.closePath(); ctx.fill();
+      // string
+      ctx.strokeStyle = 'rgba(120,80,100,.4)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(b.x, b.y + b.ry + 5);
+      ctx.quadraticCurveTo(b.x + Math.sin(b.y / 34) * 7, b.y + b.ry + 30, b.x, b.y + b.ry + 56);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    // tap anywhere -> love bubbles (only on her birthday)
+    on(window, 'pointerdown', function (e) {
+      if (window.__isBirthday) window.__loveBubbles(e.clientX, e.clientY);
+    });
+
     function loop() {
       ctx.clearRect(0, 0, cv.width, cv.height);
       ctx.save(); ctx.scale(dpr, dpr);
@@ -418,6 +518,22 @@
         g.addColorStop(1, 'rgba(233,196,120,0)');
         ctx.fillStyle = g;
         ctx.beginPath(); ctx.arc(l.x, l.y, l.r * 3, 0, 7); ctx.fill();
+      }
+      // balloons (birthday day)
+      for (var k = balloons.length - 1; k >= 0; k--) {
+        var b = balloons[k];
+        b.y -= b.vy; b.x += Math.sin((b.y + b.phase) / 55) * b.sway * 0.45;
+        if (b.y < -b.ry * 2 - 60) { balloons.splice(k, 1); continue; }
+        drawBalloon(b);
+      }
+      // love bubbles (birthday day)
+      for (var m = hearts.length - 1; m >= 0; m--) {
+        var h = hearts[m];
+        h.vy *= 0.992; h.vx *= 0.99;
+        h.x += h.vx; h.y += h.vy; h.rot += h.vr; h.size += h.grow; h.life--;
+        if (h.life <= 0 || h.y < -40) { hearts.splice(m, 1); continue; }
+        var ha = Math.max(0, Math.min(1, h.life / (h.maxLife * 0.7)));
+        drawHeart(h.x, h.y, h.size, h.color, ha * 0.9, h.rot);
       }
       ctx.restore();
       requestAnimationFrame(loop);
