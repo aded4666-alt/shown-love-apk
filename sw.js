@@ -3,7 +3,7 @@
  * Static assets       -> STALE-WHILE-REVALIDATE (instant, refreshed in background)
  * Bump CACHE_VERSION on every deploy to purge old caches.
  */
-var CACHE_VERSION = 'v12';
+var CACHE_VERSION = 'v13';
 var CACHE = 'for-mom-' + CACHE_VERSION;
 
 var ASSETS = [

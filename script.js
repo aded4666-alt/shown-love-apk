@@ -295,20 +295,35 @@
       [523.25, 1], [523.25, 1], [1046.5, 1], [880, 1], [698.46, 1], [659.25, 1], [587.33, 1.5],
       [932.33, 1], [932.33, 1], [880, 1], [698.46, 1], [783.99, 1], [698.46, 1.5]
     ];
-    var BEAT = 0.42, LOOP = MELODY.reduce(function (a, n) { return a + n[1]; }, 0) * BEAT;
+    // Slower, dreamier tempo for a soft birthday mood
+    var BEAT = 0.62, LOOP = MELODY.reduce(function (a, n) { return a + n[1]; }, 0) * BEAT;
 
     function schedule(t0) {
       var t = t0;
       MELODY.forEach(function (n) {
         var o = actx.createOscillator(), g = actx.createGain();
-        o.type = 'triangle'; o.frequency.value = n[0];
+        var o2 = actx.createOscillator(), g2 = actx.createGain();
+        var lp = actx.createBiquadFilter();
+        // soft sine tone (warmer than triangle), with a quiet octave shimmer
+        o.type = 'sine'; o.frequency.value = n[0];
+        o2.type = 'sine'; o2.frequency.value = n[0] * 2; o2.detune.value = 4;
+        // gentle low-pass to round off any harshness
+        lp.type = 'lowpass'; lp.frequency.value = 1600; lp.Q.value = 0.5;
+        var dur = n[1] * BEAT;
+        // slow, soft swell in and a long, tender fade out
         g.gain.setValueAtTime(0, t);
-        g.gain.linearRampToValueAtTime(0.16, t + 0.03);
-        g.gain.exponentialRampToValueAtTime(0.001, t + n[1] * BEAT * 0.95);
-        o.connect(g); g.connect(master);
-        o.start(t); o.stop(t + n[1] * BEAT);
-        nodes.push(o);
-        t += n[1] * BEAT;
+        g.gain.linearRampToValueAtTime(0.09, t + 0.14);
+        g.gain.exponentialRampToValueAtTime(0.0008, t + dur * 0.98);
+        g2.gain.setValueAtTime(0, t);
+        g2.gain.linearRampToValueAtTime(0.02, t + 0.18);
+        g2.gain.exponentialRampToValueAtTime(0.0006, t + dur * 0.95);
+        o.connect(g); g.connect(lp);
+        o2.connect(g2); g2.connect(lp);
+        lp.connect(master);
+        o.start(t); o.stop(t + dur);
+        o2.start(t); o2.stop(t + dur);
+        nodes.push(o, o2);
+        t += dur;
       });
     }
     function start() {
@@ -317,7 +332,7 @@
         if (!AC) return;
         actx = new AC();
         master = actx.createGain();
-        master.gain.value = 0.5;
+        master.gain.value = 0.32;
         master.connect(actx.destination);
       }
       if (actx.state === 'suspended') actx.resume();
